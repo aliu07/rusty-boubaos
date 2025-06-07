@@ -3,6 +3,9 @@ use std::{
     process,
 };
 
+mod commands;
+mod utils;
+
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Banner
     println!(r#"    ____              __          ____  _____"#);
@@ -56,38 +59,13 @@ fn interpreter(args: Vec<&str>, args_count: usize) -> i32 {
     let error_code;
 
     if args_count < 1 {
-        badcommand();
+        utils::badcommand();
     }
 
     match args[0] {
-        "help" => error_code = help(),
-        _ => error_code = badcommand(),
+        "help" => error_code = commands::help(),
+        _ => error_code = utils::badcommand(),
     }
 
     error_code
-}
-
-fn badcommand() -> i32 {
-    println!("Unknown command");
-    1
-}
-
-fn help() -> i32 {
-    let help_string = r#"COMMAND          DESCRIPTION
-================================================================
-help             Displays all the commands
-quit             Exits / terminates the shell with "Bye!"
-set VAR STRING   Assigns a value to shell memory
-print VAR        Displays the STRING assigned to VAR
-run SCRIPT.TXT   Executes the file SCRIPT.TXT
-echo STRING      Displays STRING. If STRING starts with $, prints
-                 the value of the variable
-my_ls            Lists the contents of the current directory
-my_mkdir DIR     Creates a new directory with name DIR
-my_touch FILE    Creates a new empty file with name FILE
-my_cd DIR        Changes current directory to DIR
-my_fork CMD      Executes CMD with ARGS using fork-exec pattern"#;
-
-    println!("\n{}\n", help_string);
-    0
 }
