@@ -4,6 +4,7 @@ use std::{
 };
 
 mod commands;
+mod interpreter;
 mod utils;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
@@ -49,22 +50,7 @@ fn parse_input(user_input: &str) -> i32 {
         }
 
         let tokens_count = tokens.len();
-        error_code = interpreter(tokens, tokens_count);
-    }
-
-    error_code
-}
-
-fn interpreter(args: Vec<&str>, args_count: usize) -> i32 {
-    let error_code;
-
-    if args_count < 1 {
-        utils::badcommand();
-    }
-
-    match args[0] {
-        "help" => error_code = commands::help(),
-        _ => error_code = utils::badcommand(),
+        error_code = interpreter::interpret(tokens, tokens_count);
     }
 
     error_code
