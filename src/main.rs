@@ -1,7 +1,6 @@
-use std::{
-    io::{Write, stdin, stdout},
-    process,
-};
+use std::io::{Write, stdin, stdout};
+
+use crate::errors::BadCommandError;
 
 mod commands;
 mod errors;
@@ -21,23 +20,20 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let prompt = "$";
     let mut user_input = String::new();
-    let mut error_code;
 
     loop {
         print!("{} ", prompt);
         stdout().flush()?;
         stdin().read_line(&mut user_input)?;
-        error_code = parse_input(&user_input);
-
-        if error_code == -1 {
-            process::exit(99);
-        }
+        parse_input(&user_input).unwrap_or_else(|err| {
+            println!("{}", err);
+        });
 
         user_input.clear();
     }
 }
 
-fn parse_input(user_input: &str) -> i32 {
+fn parse_input(user_input: &str) -> Result<(), BadCommandError> {
     for command in user_input.split(";") {
         let command = command.trim();
         let mut tokens = Vec::new();
@@ -49,12 +45,9 @@ fn parse_input(user_input: &str) -> i32 {
         }
 
         let tokens_count = tokens.len();
-        interpreter::interpret(tokens, tokens_count).unwrap_or_else(|err| {
-            println!("{}", err);
-            return -1;
-        });
+        interpreter::interpret(tokens, tokens_count)?;
     }
 
     // Success
-    0
+    Ok(())
 }
