@@ -26,7 +26,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         stdout().flush()?;
         stdin().read_line(&mut user_input)?;
         parse_input(&user_input).unwrap_or_else(|err| {
-            println!("{}", err);
+            eprintln!("{}", err);
         });
 
         user_input.clear();
