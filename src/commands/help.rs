@@ -1,8 +1,8 @@
-use super::super::utils;
+use crate::errors::{self, BadCommandError};
 
-pub fn help(args_count: usize) -> i32 {
+pub fn help(args_count: usize) -> Result<(), BadCommandError> {
     if args_count > 1 {
-        return utils::too_many_tokens();
+        return Err(errors::too_many_tokens());
     }
 
     let help_string = r#"COMMAND          DESCRIPTION
@@ -21,5 +21,6 @@ my_cd DIR        Changes current directory to DIR
 my_fork CMD      Executes CMD with ARGS using fork-exec pattern"#;
 
     println!("\n{}\n", help_string);
-    0
+
+    Ok(())
 }

@@ -4,8 +4,9 @@ use std::{
 };
 
 mod commands;
+mod errors;
 mod interpreter;
-mod utils;
+mod memory;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // Banner
@@ -37,8 +38,6 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 }
 
 fn parse_input(user_input: &str) -> i32 {
-    let mut error_code = 0;
-
     for command in user_input.split(";") {
         let command = command.trim();
         let mut tokens = Vec::new();
@@ -50,8 +49,12 @@ fn parse_input(user_input: &str) -> i32 {
         }
 
         let tokens_count = tokens.len();
-        error_code = interpreter::interpret(tokens, tokens_count);
+        interpreter::interpret(tokens, tokens_count).unwrap_or_else(|err| {
+            println!("{}", err);
+            return -1;
+        });
     }
 
-    error_code
+    // Success
+    0
 }
