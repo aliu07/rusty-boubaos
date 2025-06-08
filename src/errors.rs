@@ -9,6 +9,7 @@ pub enum BadCommandError {
     FileNotFound(String),
     PwdError,
     FileReadError,
+    InvalidFileFormat,
 }
 
 impl std::fmt::Display for BadCommandError {
@@ -27,6 +28,7 @@ impl std::fmt::Display for BadCommandError {
             }
             BadCommandError::PwdError => write!(f, "Bad command: Could not execute pwd"),
             BadCommandError::FileReadError => write!(f, "Bad command: Error reading file contents"),
+            BadCommandError::InvalidFileFormat => write!(f, "Bad commad: Invalid file format"),
         }
     }
 }
