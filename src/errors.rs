@@ -7,7 +7,8 @@ pub enum BadCommandError {
     VariableDoesNotExist(String),
     VariableTableFull,
     FileNotFound(String),
-    PwdError,
+    CurrentDirectoryReadError,
+    DirectoryEntryReadError,
     FileReadError,
     InvalidFileFormat,
     DirectoryAlreadyExists(String),
@@ -27,11 +28,16 @@ impl std::fmt::Display for BadCommandError {
             BadCommandError::FileNotFound(path) => {
                 write!(f, "Bad command: Error reading file at '{}'", path)
             }
-            BadCommandError::PwdError => write!(f, "Bad command: Could not execute pwd"),
+            BadCommandError::CurrentDirectoryReadError => {
+                write!(f, "Bad command: Error reading current directory")
+            }
             BadCommandError::FileReadError => write!(f, "Bad command: Error reading file contents"),
             BadCommandError::InvalidFileFormat => write!(f, "Bad commad: Invalid file format"),
             BadCommandError::DirectoryAlreadyExists(dirname) => {
                 write!(f, "Bad commad: Directory '{}' already exists", dirname)
+            }
+            BadCommandError::DirectoryEntryReadError => {
+                write!(f, "Bad command: Error reading directory entry")
             }
         }
     }

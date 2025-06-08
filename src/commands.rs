@@ -1,5 +1,6 @@
 mod echo;
 mod help;
+mod ls;
 mod mkdir;
 mod print;
 mod pwd;
@@ -10,6 +11,7 @@ mod set;
 
 pub use echo::echo;
 pub use help::help;
+pub use ls::ls;
 pub use mkdir::mkdir;
 pub use print::print;
 pub use pwd::pwd;

@@ -104,6 +104,13 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
             let dirname = args[1];
             commands::mkdir(dirname)?;
         }
+        "ls" => {
+            if args_count > 1 {
+                return Err(BadCommandError::TooManyTokens);
+            }
+
+            commands::ls()?;
+        }
         _ => return Err(BadCommandError::UnknownCommand),
     }
 
