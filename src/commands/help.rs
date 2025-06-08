@@ -1,6 +1,4 @@
-use crate::errors::BadCommandError;
-
-pub fn help() -> Result<(), BadCommandError> {
+pub fn help() {
     let help_string = r#"COMMAND          DESCRIPTION
 ====================================================
 help             Displays all the commands
@@ -18,6 +16,4 @@ my_cd DIR        Changes current directory to DIR
 my_fork CMD      Executes CMD with ARGS using fork-exec pattern"#;
 
     println!("\n{}\n", help_string);
-
-    Ok(())
 }

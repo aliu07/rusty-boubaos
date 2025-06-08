@@ -22,7 +22,7 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
                 return Err(errors::too_many_tokens());
             }
 
-            commands::help()?
+            commands::help()
         }
         "set" => {
             if args_count < 3 {
