@@ -28,7 +28,7 @@ impl std::fmt::Display for BadCommandError {
             }
             BadCommandError::VariableTableFull => write!(f, "Bad command: Variable table is full"),
             BadCommandError::FileNotFound(path) => {
-                write!(f, "Bad command: Error reading file at '{}'", path)
+                write!(f, "Bad command: File '{}' does not exist", path)
             }
             BadCommandError::CurrentDirectoryReadError => {
                 write!(f, "Bad command: Error reading current directory")
