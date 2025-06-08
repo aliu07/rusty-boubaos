@@ -80,6 +80,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
 
             commands::pwd()?;
         }
+        "run" => {
+            if args_count < 2 {
+                return Err(BadCommandError::MissingArgs);
+            }
+
+            if args_count > 2 {
+                return Err(BadCommandError::TooManyTokens);
+            }
+
+            let path = args[1];
+            commands::run(path)?;
+        }
         _ => return Err(BadCommandError::UnknownCommand),
     }
 

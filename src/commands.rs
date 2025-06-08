@@ -4,6 +4,7 @@ mod print;
 mod pwd;
 mod quit;
 mod remove;
+mod run;
 mod set;
 
 pub use echo::echo;
@@ -12,4 +13,5 @@ pub use print::print;
 pub use pwd::pwd;
 pub use quit::quit;
 pub use remove::remove;
+pub use run::run;
 pub use set::set;
