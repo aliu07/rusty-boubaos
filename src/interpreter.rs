@@ -1,15 +1,15 @@
 use super::commands;
-use crate::errors::{self, BadCommandError};
+use crate::errors::BadCommandError;
 
 const MAX_ARGS_COUNT: usize = 7;
 
 pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandError> {
     if args_count < 1 {
-        return Err(errors::missing_args());
+        return Err(BadCommandError::MissingArgs);
     }
 
     if args_count > MAX_ARGS_COUNT {
-        return Err(errors::too_many_tokens());
+        return Err(BadCommandError::TooManyTokens);
     }
 
     if args[0] == "quit" && args_count == 1 {
@@ -19,18 +19,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
     match args[0] {
         "help" => {
             if args_count > 1 {
-                return Err(errors::too_many_tokens());
+                return Err(BadCommandError::TooManyTokens);
             }
 
             commands::help()
         }
         "set" => {
             if args_count < 3 {
-                return Err(errors::missing_args());
+                return Err(BadCommandError::MissingArgs);
             }
 
             if args_count > 3 {
-                return Err(errors::too_many_tokens());
+                return Err(BadCommandError::TooManyTokens);
             }
 
             let variable = args[1];
@@ -39,11 +39,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "remove" => {
             if args_count < 2 {
-                return Err(errors::missing_args());
+                return Err(BadCommandError::MissingArgs);
             }
 
             if args_count > 2 {
-                return Err(errors::too_many_tokens());
+                return Err(BadCommandError::TooManyTokens);
             }
 
             let variable = args[1];
@@ -51,11 +51,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "print" => {
             if args_count < 2 {
-                return Err(errors::missing_args());
+                return Err(BadCommandError::MissingArgs);
             }
 
             if args_count > 2 {
-                return Err(errors::too_many_tokens());
+                return Err(BadCommandError::TooManyTokens);
             }
 
             let variable = args[1];
@@ -63,11 +63,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "echo" => {
             if args_count < 2 {
-                return Err(errors::missing_args());
+                return Err(BadCommandError::MissingArgs);
             }
 
             if args_count > 2 {
-                return Err(errors::too_many_tokens());
+                return Err(BadCommandError::TooManyTokens);
             }
 
             let variable = args[1];

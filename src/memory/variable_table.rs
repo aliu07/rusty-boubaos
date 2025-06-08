@@ -1,7 +1,7 @@
 use once_cell::sync::Lazy;
 use std::{collections::HashMap, sync::RwLock};
 
-use crate::errors::{self, BadCommandError};
+use crate::errors::BadCommandError;
 
 const VAR_TABLE_SIZE: usize = 10;
 
@@ -18,7 +18,7 @@ impl VariableTable {
 
         // Check capacity
         if table.len() == VAR_TABLE_SIZE {
-            return Err(errors::variable_table_full());
+            return Err(BadCommandError::VariableTableFull);
         }
 
         table

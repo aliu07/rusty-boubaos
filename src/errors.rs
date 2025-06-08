@@ -6,6 +6,9 @@ pub enum BadCommandError {
     VariableTableError(String),
     VariableDoesNotExist(String),
     VariableTableFull,
+    FileNotFound(String),
+    PwdError,
+    FileReadError,
 }
 
 impl std::fmt::Display for BadCommandError {
@@ -19,24 +22,13 @@ impl std::fmt::Display for BadCommandError {
                 write!(f, "Bad command: Variable '{}' does not exist in table", var)
             }
             BadCommandError::VariableTableFull => write!(f, "Bad command: Variable table is full"),
+            BadCommandError::FileNotFound(path) => {
+                write!(f, "Bad command: Error reading file at '{}'", path)
+            }
+            BadCommandError::PwdError => write!(f, "Bad command: Could not execute pwd"),
+            BadCommandError::FileReadError => write!(f, "Bad command: Error reading file contents"),
         }
     }
 }
 
 impl std::error::Error for BadCommandError {}
-
-pub fn unknown_command() -> BadCommandError {
-    BadCommandError::UnknownCommand
-}
-
-pub fn missing_args() -> BadCommandError {
-    BadCommandError::MissingArgs
-}
-
-pub fn too_many_tokens() -> BadCommandError {
-    BadCommandError::TooManyTokens
-}
-
-pub fn variable_table_full() -> BadCommandError {
-    BadCommandError::VariableTableFull
-}
