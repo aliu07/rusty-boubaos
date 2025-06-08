@@ -147,6 +147,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
             let file_name = args[1];
             commands::rm(file_name)?;
         }
+        "rmdir" => {
+            if args_count < 2 {
+                return Err(BadCommandError::MissingArgs);
+            }
+
+            if args_count > 2 {
+                return Err(BadCommandError::TooManyTokens);
+            }
+
+            let dir_name = args[1];
+            commands::rmdir(dir_name)?;
+        }
         _ => return Err(BadCommandError::UnknownCommand),
     }
 
