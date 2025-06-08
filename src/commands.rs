@@ -9,6 +9,7 @@ mod quit;
 mod remove;
 mod run;
 mod set;
+mod touch;
 
 pub use cd::cd;
 pub use echo::echo;
@@ -21,3 +22,4 @@ pub use quit::quit;
 pub use remove::remove;
 pub use run::run;
 pub use set::set;
+pub use touch::touch;

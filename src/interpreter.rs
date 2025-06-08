@@ -123,6 +123,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
             let target = args[1];
             commands::cd(target)?;
         }
+        "touch" => {
+            if args_count < 2 {
+                return Err(BadCommandError::MissingArgs);
+            }
+
+            if args_count > 2 {
+                return Err(BadCommandError::TooManyTokens);
+            }
+
+            let file_name = args[1];
+            commands::touch(file_name)?;
+        }
         _ => return Err(BadCommandError::UnknownCommand),
     }
 
