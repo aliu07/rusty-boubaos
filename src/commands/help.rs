@@ -1,10 +1,6 @@
-use crate::errors::{self, BadCommandError};
+use crate::errors::BadCommandError;
 
-pub fn help(args_count: usize) -> Result<(), BadCommandError> {
-    if args_count > 1 {
-        return Err(errors::too_many_tokens());
-    }
-
+pub fn help() -> Result<(), BadCommandError> {
     let help_string = r#"COMMAND          DESCRIPTION
 ====================================================
 help             Displays all the commands

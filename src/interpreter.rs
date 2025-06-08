@@ -12,15 +12,55 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         return Err(errors::too_many_tokens());
     }
 
-    if args[0] == "quit" {
+    if args[0] == "quit" && args_count == 1 {
         commands::quit();
-    }
+    };
 
     match args[0] {
-        "help" => commands::help(args_count)?,
-        "set" => commands::set(args, args_count)?,
-        "remove" => commands::remove(args, args_count)?,
-        "print" => commands::print(args, args_count)?,
+        "help" => {
+            if args_count > 1 {
+                return Err(errors::too_many_tokens());
+            }
+
+            commands::help()?
+        }
+        "set" => {
+            if args_count < 3 {
+                return Err(errors::missing_args());
+            }
+
+            if args_count > 3 {
+                return Err(errors::too_many_tokens());
+            }
+
+            let variable = args[1];
+            let value = args[2];
+            commands::set(variable, value)?
+        }
+        "remove" => {
+            if args_count < 2 {
+                return Err(errors::missing_args());
+            }
+
+            if args_count > 2 {
+                return Err(errors::too_many_tokens());
+            }
+
+            let variable = args[1];
+            commands::remove(variable)?
+        }
+        "print" => {
+            if args_count < 2 {
+                return Err(errors::missing_args());
+            }
+
+            if args_count > 2 {
+                return Err(errors::too_many_tokens());
+            }
+
+            let variable = args[1];
+            commands::print(variable)?
+        }
         _ => Err(errors::unknown_command())?,
     }
 
