@@ -61,6 +61,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
             let variable = args[1];
             commands::print(variable)?
         }
+        "echo" => {
+            if args_count < 2 {
+                return Err(errors::missing_args());
+            }
+
+            if args_count > 2 {
+                return Err(errors::too_many_tokens());
+            }
+
+            let variable = args[1];
+            commands::echo(variable)?;
+        }
         _ => Err(errors::unknown_command())?,
     }
 

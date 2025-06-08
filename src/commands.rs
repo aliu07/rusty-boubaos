@@ -1,9 +1,11 @@
+mod echo;
 mod help;
 mod print;
 mod quit;
 mod remove;
 mod set;
 
+pub use echo::echo;
 pub use help::help;
 pub use print::print;
 pub use quit::quit;
