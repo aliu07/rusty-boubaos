@@ -73,7 +73,14 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
             let variable = args[1];
             commands::echo(variable)?;
         }
-        _ => Err(errors::unknown_command())?,
+        "pwd" => {
+            if args_count > 1 {
+                return Err(BadCommandError::TooManyTokens);
+            }
+
+            commands::pwd()?;
+        }
+        _ => return Err(BadCommandError::UnknownCommand),
     }
 
     // Success
