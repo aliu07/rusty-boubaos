@@ -19,6 +19,7 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
     match args[0] {
         "help" => commands::help(args_count)?,
         "set" => commands::set(args, args_count)?,
+        "remove" => commands::remove(args, args_count)?,
         "print" => commands::print(args, args_count)?,
         _ => Err(errors::unknown_command())?,
     }

@@ -42,6 +42,18 @@ impl VariableTable {
             .cloned()
             .ok_or_else(|| BadCommandError::VariableDoesNotExist(String::from(variable)))
     }
+
+    pub fn remove_value(&self, variable: &str) -> Result<(), BadCommandError> {
+        let mut table = self
+            .table
+            .write()
+            .map_err(|err| return BadCommandError::VariableTableError(err.to_string()))?;
+
+        table
+            .remove(variable)
+            .map(|_| ())
+            .ok_or_else(|| BadCommandError::VariableDoesNotExist(String::from(variable)))
+    }
 }
 
 // Singleton lazy access
