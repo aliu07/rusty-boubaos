@@ -12,6 +12,7 @@ pub enum BadCommandError {
     FileReadError,
     InvalidFileFormat,
     DirectoryAlreadyExists(String),
+    PathDoesNotExist(String),
 }
 
 impl std::fmt::Display for BadCommandError {
@@ -38,6 +39,9 @@ impl std::fmt::Display for BadCommandError {
             }
             BadCommandError::DirectoryEntryReadError => {
                 write!(f, "Bad command: Error reading directory entry")
+            }
+            BadCommandError::PathDoesNotExist(path) => {
+                write!(f, "Bad command: The path '{}' does not exist", path)
             }
         }
     }

@@ -1,3 +1,4 @@
+mod cd;
 mod echo;
 mod help;
 mod ls;
@@ -9,6 +10,7 @@ mod remove;
 mod run;
 mod set;
 
+pub use cd::cd;
 pub use echo::echo;
 pub use help::help;
 pub use ls::ls;
