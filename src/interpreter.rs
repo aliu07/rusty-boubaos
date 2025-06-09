@@ -3,13 +3,13 @@ use crate::errors::BadCommandError;
 
 const MAX_ARGS_COUNT: usize = 7;
 
-pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandError> {
+pub fn interpret(args: Vec<&str>, args_count: usize) -> anyhow::Result<i32> {
     if args_count < 1 {
-        return Err(BadCommandError::MissingArgs);
+        return Err(BadCommandError::MissingArgs.into());
     }
 
     if args_count > MAX_ARGS_COUNT {
-        return Err(BadCommandError::TooManyTokens);
+        return Err(BadCommandError::TooManyTokens.into());
     }
 
     if args[0] == "quit" && args_count == 1 {
@@ -19,18 +19,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
     match args[0] {
         "help" => {
             if args_count > 1 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             commands::help()
         }
         "set" => {
             if args_count < 3 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 3 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let variable = args[1];
@@ -39,11 +39,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "remove" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let variable = args[1];
@@ -51,11 +51,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "print" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let variable = args[1];
@@ -63,11 +63,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "echo" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let variable = args[1];
@@ -75,18 +75,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "pwd" => {
             if args_count > 1 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             commands::pwd()?;
         }
         "run" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let path = args[1];
@@ -94,11 +94,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "mkdir" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let dirname = args[1];
@@ -106,18 +106,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "ls" => {
             if args_count > 1 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             commands::ls()?;
         }
         "cd" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let target = args[1];
@@ -125,11 +125,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "touch" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let file_name = args[1];
@@ -137,11 +137,11 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "rm" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let file_name = args[1];
@@ -149,17 +149,17 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> Result<i32, BadCommandEr
         }
         "rmdir" => {
             if args_count < 2 {
-                return Err(BadCommandError::MissingArgs);
+                return Err(BadCommandError::MissingArgs.into());
             }
 
             if args_count > 2 {
-                return Err(BadCommandError::TooManyTokens);
+                return Err(BadCommandError::TooManyTokens.into());
             }
 
             let dir_name = args[1];
             commands::rmdir(dir_name)?;
         }
-        _ => return Err(BadCommandError::UnknownCommand),
+        _ => return Err(BadCommandError::UnknownCommand.into()),
     }
 
     // Success

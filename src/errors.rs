@@ -15,6 +15,7 @@ pub enum BadCommandError {
     PathDoesNotExist(String),
     CreateFileError,
     DirectoryNotFound(String),
+    CreateDirectoryError,
 }
 
 impl std::fmt::Display for BadCommandError {
@@ -50,6 +51,9 @@ impl std::fmt::Display for BadCommandError {
             }
             BadCommandError::DirectoryNotFound(dir_name) => {
                 write!(f, "Bad command: Directory '{}' does not exist", dir_name)
+            }
+            BadCommandError::CreateDirectoryError => {
+                write!(f, "Bad command: Error creating directory")
             }
         }
     }

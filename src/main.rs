@@ -1,8 +1,10 @@
 use std::io::{BufRead, Write, stdin, stdout};
 
-use crate::errors::BadCommandError;
+use crate::environment::ENV;
+use crate::memory::VARIABLE_TABLE;
 
 mod commands;
+mod environment;
 mod errors;
 mod interpreter;
 mod memory;
@@ -10,6 +12,11 @@ mod memory;
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // True = Interactive mode, False = Batch mode (input piped)
     let mode_flag = atty::is(atty::Stream::Stdin);
+    // Init
+    let env = &ENV;
+    println!("{}", env.get_root_path().display());
+    println!("{}", env.get_current_path().display());
+    let _var_table = &VARIABLE_TABLE;
 
     if mode_flag {
         // Banner
@@ -48,7 +55,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     }
 }
 
-fn parse_input(user_input: &str) -> Result<(), BadCommandError> {
+fn parse_input(user_input: &str) -> anyhow::Result<()> {
     for command in user_input.split(";") {
         let command = command.trim();
         let mut tokens = Vec::new();

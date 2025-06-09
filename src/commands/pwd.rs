@@ -1,9 +1,19 @@
-use std::env;
+use crate::ENV;
+use crate::environment::ROOT_DIR;
 
-use crate::errors::BadCommandError;
+pub fn pwd() -> anyhow::Result<()> {
+    let root = ENV.get_root_path();
+    let current = ENV.get_current_path();
+    let relative = current.strip_prefix(root)?;
 
-pub fn pwd() -> Result<(), BadCommandError> {
-    let path_buf = env::current_dir().map_err(|_| BadCommandError::CurrentDirectoryReadError)?;
-    println!("{}", path_buf.display());
+    let mut abs_path = format!("/{}", ROOT_DIR);
+
+    if !relative.as_os_str().is_empty() {
+        abs_path.push('/');
+        abs_path.push_str(relative.to_str().unwrap());
+    }
+
+    println!("{}", abs_path);
+
     Ok(())
 }

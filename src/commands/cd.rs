@@ -1,15 +1,20 @@
+use crate::environment::ENV;
 use crate::errors::BadCommandError;
-use std::{env, path::Path};
+use std::{env, fs, path::Path};
 
-pub fn cd(target_path: &str) -> Result<(), BadCommandError> {
-    // Build new path
-    let target_path = Path::new(target_path);
-    let mut path_buf =
-        env::current_dir().map_err(|_| BadCommandError::CurrentDirectoryReadError)?;
-    path_buf.push(target_path);
+pub fn cd(path: &str) -> anyhow::Result<()> {
+    let mut target_path = ENV.get_current_path();
+    target_path.push(Path::new(path));
+    let target_path = fs::canonicalize(target_path)
+        .map_err(|_| BadCommandError::PathDoesNotExist(String::from(path)))?;
 
-    env::set_current_dir(&path_buf)
-        .map_err(move |_| BadCommandError::PathDoesNotExist(path_buf.display().to_string()))?;
+    // Prevent exiting from root directory
+    if target_path.starts_with(ENV.get_root_path()) {
+        ENV.set_current_path(&target_path);
+        env::set_current_dir(&target_path).map_err(move |_| {
+            BadCommandError::PathDoesNotExist(target_path.display().to_string())
+        })?;
+    }
 
     Ok(())
 }
