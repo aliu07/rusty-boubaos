@@ -16,6 +16,7 @@ pub enum BadCommandError {
     CreateFileError,
     DirectoryNotFound(String),
     CreateDirectoryError,
+    ExitRootDirectoryError,
 }
 
 impl std::fmt::Display for BadCommandError {
@@ -54,6 +55,9 @@ impl std::fmt::Display for BadCommandError {
             }
             BadCommandError::CreateDirectoryError => {
                 write!(f, "Bad command: Error creating directory")
+            }
+            BadCommandError::ExitRootDirectoryError => {
+                write!(f, "Bad command: Cannot exit root directory")
             }
         }
     }

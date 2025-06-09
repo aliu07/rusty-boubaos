@@ -14,6 +14,8 @@ pub fn cd(path: &str) -> anyhow::Result<()> {
         env::set_current_dir(&target_path).map_err(move |_| {
             BadCommandError::PathDoesNotExist(target_path.display().to_string())
         })?;
+    } else {
+        return Err(BadCommandError::ExitRootDirectoryError.into());
     }
 
     Ok(())
