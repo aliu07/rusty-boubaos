@@ -8,6 +8,7 @@ mod environment;
 mod errors;
 mod interpreter;
 mod memory;
+mod parser;
 
 fn main() -> Result<(), Box<dyn std::error::Error>> {
     // True = Interactive mode, False = Batch mode (input piped)
@@ -36,7 +37,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
             print!("{} ", prompt);
             stdout().flush()?;
             stdin().read_line(&mut user_input)?;
-            parse_input(&user_input).unwrap_or_else(|err| {
+            parser::parse_input(&user_input).unwrap_or_else(|err| {
                 eprintln!("{}", err);
             });
 
@@ -46,30 +47,11 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
         for line in stdin().lock().lines() {
             let line = line?;
 
-            parse_input(&line).unwrap_or_else(|err| {
+            parser::parse_input(&line).unwrap_or_else(|err| {
                 eprintln!("{}", err);
             });
         }
 
         Ok(())
     }
-}
-
-fn parse_input(user_input: &str) -> anyhow::Result<()> {
-    for command in user_input.split(";") {
-        let command = command.trim();
-        let mut tokens = Vec::new();
-
-        for token in command.split(" ") {
-            if token != "" {
-                tokens.push(token);
-            }
-        }
-
-        let tokens_count = tokens.len();
-        interpreter::interpret(tokens, tokens_count)?;
-    }
-
-    // Success
-    Ok(())
 }

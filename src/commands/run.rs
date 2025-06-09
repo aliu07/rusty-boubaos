@@ -1,4 +1,4 @@
-use crate::{errors::BadCommandError, parse_input};
+use crate::{errors::BadCommandError, parser};
 use std::{
     fs::File,
     io::{BufRead, BufReader},
@@ -20,7 +20,7 @@ pub fn run(path: &str) -> anyhow::Result<()> {
     for line in reader.lines() {
         let line = line.map_err(|_| BadCommandError::FileReadError)?;
 
-        parse_input(&line)?;
+        parser::parse_input(&line)?;
     }
 
     Ok(())
