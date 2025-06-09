@@ -17,6 +17,7 @@ pub enum BadCommandError {
     DirectoryNotFound(String),
     CreateDirectoryError,
     ExitRootDirectoryError,
+    VimError,
 }
 
 impl std::fmt::Display for BadCommandError {
@@ -59,6 +60,7 @@ impl std::fmt::Display for BadCommandError {
             BadCommandError::ExitRootDirectoryError => {
                 write!(f, "Bad command: Cannot exit root directory")
             }
+            BadCommandError::VimError => write!(f, "Bad command: Failed to launch vim editor"),
         }
     }
 }

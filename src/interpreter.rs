@@ -159,6 +159,18 @@ pub fn interpret(args: Vec<&str>, args_count: usize) -> anyhow::Result<i32> {
             let dir_name = args[1];
             commands::rmdir(dir_name)?;
         }
+        "vi" => {
+            if args_count < 2 {
+                return Err(BadCommandError::MissingArgs.into());
+            }
+
+            if args_count > 2 {
+                return Err(BadCommandError::TooManyTokens.into());
+            }
+
+            let file_name = args[1];
+            commands::vi(file_name)?;
+        }
         _ => return Err(BadCommandError::UnknownCommand.into()),
     }
 

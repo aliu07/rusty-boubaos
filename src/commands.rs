@@ -12,6 +12,7 @@ mod rmdir;
 mod run;
 mod set;
 mod touch;
+mod vi;
 
 pub use cd::cd;
 pub use echo::echo;
@@ -27,3 +28,4 @@ pub use rmdir::rmdir;
 pub use run::run;
 pub use set::set;
 pub use touch::touch;
+pub use vi::vi;
